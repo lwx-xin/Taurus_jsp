@@ -25,14 +25,12 @@ public class LoginController {
 	
 	@Resource
 	private HttpServletRequest request;
-	@Resource
-	private HttpSession session;
-
+	
 	@Resource
 	private TSUserService userService;
 
 	@RequestMapping(value = "/webLogin", method = RequestMethod.GET)
-	public String webLogin(HttpServletResponse response) {
+	public String webLogin(HttpServletResponse response,HttpSession session) {
 		
 		TSUserEntity userInfo = SessionUtil.getUserInfo(session);
 		if (userInfo!=null) {
@@ -45,12 +43,12 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/webLogin", method = RequestMethod.POST)
-	public String webLogin(TSUserEntity userEntity,String loginToken, HttpServletResponse response) {
+	public String webLogin(TSUserEntity userEntity,String loginToken, HttpServletResponse response,HttpSession session) {
 		
 		Object LOGIN_TOKEN = session.getAttribute("LOGIN_TOKEN");
 		if (StrUtil.strIsNotEquals(LOGIN_TOKEN, loginToken)) {
 			request.setAttribute("sysErrMessage", "请重新登录");
-			return webLogin(response);
+			return webLogin(response,session);
 		}
 		session.removeAttribute("LOGIN_TOKEN");
 
@@ -80,14 +78,20 @@ public class LoginController {
 			return "sys/login";
 		}
 		
+		HttpSession s = SessionUtil.getSession(userEntity.getUserId());
+		if (s!=null) {
+			s.invalidate();
+		}
+		
 		// 将用户信息保存在session中
 		SessionUtil.setUserInfo(session, userEntity);
+		SessionUtil.addSession(session);
 
 		return "sys/home";
 	}
 
 	@RequestMapping(value = "/webLogout", method = RequestMethod.GET)
-	public String webLogout(HttpServletResponse response,String sysErrMessage) {
+	public String webLogout(HttpServletResponse response,String sysErrMessage,HttpSession session) {
 
 		SessionUtil.clearSession(session);
 		request.setAttribute("sysErrMessage", "请重新登录");

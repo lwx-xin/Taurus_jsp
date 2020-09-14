@@ -2,6 +2,8 @@ package org.taurus.service.sys;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.taurus.entity.sys.TSFolderEntity;
 import org.taurus.entity.sys.TSFolderExtendEntity;
 
@@ -14,7 +16,7 @@ public interface TSFolderService extends IService<TSFolderEntity> {
 	 * @param folderOwner
 	 * @return
 	 */
-	List<TSFolderExtendEntity> getChildrenTree(String folderOwner);
+	List<TSFolderExtendEntity> getChildrenTree(String folderOwner,HttpSession session);
 	
 	/**
 	 * 获取当前文件夹的路径(A/B/c)
@@ -29,6 +31,6 @@ public interface TSFolderService extends IService<TSFolderEntity> {
 	 * @param editType insert/update
 	 * @return
 	 */
-	boolean editFolder(String folderId,String folderName,String editType);
+	boolean editFolder(String folderId,String folderName,String editType,HttpSession session);
 
 }

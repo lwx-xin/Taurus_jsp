@@ -2,6 +2,8 @@ package org.taurus.service.sys;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.taurus.entity.sys.TSUrlEntity;
 import org.taurus.entity.sys.TSUrlExtendEntity;
 
@@ -16,6 +18,6 @@ public interface TSUrlService extends IService<TSUrlEntity> {
 	 */
 	List<TSUrlExtendEntity> selectExtendInfo(TSUrlExtendEntity urlExtendEntity);
 	
-	boolean editUrlDetail(TSUrlExtendEntity urlExtendEntity);
+	boolean editUrlDetail(TSUrlExtendEntity urlExtendEntity,HttpSession session);
 
 }

@@ -17,9 +17,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 public class TSFileServiceImpl extends ServiceImpl<TSFileDao, TSFileEntity> implements TSFileService {
 	
 	@Resource
-	private HttpSession session;
-	
-	@Resource
 	private TaurusConfig taurusConfig;
 	
 	@Resource
@@ -32,7 +29,7 @@ public class TSFileServiceImpl extends ServiceImpl<TSFileDao, TSFileEntity> impl
 	private TSFolderService folderService;
 
 	@Override
-	public String getFilePath(String fileId) {
+	public String getFilePath(String fileId,HttpSession session) {
 		String loginUserId = SessionUtil.getUserId(session);
 		
 		//当前文件

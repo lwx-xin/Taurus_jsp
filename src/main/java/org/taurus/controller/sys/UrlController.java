@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -83,8 +84,8 @@ public class UrlController {
 	
 	@RequestMapping(value = "/editUrlDetail", method = RequestMethod.POST)
 	@ResponseBody
-	public ReturnEntity editUrlDetail(@RequestBody TSUrlExtendEntity urlExtendEntity) {
-		boolean updateUrlDetailFlg = urlService.editUrlDetail(urlExtendEntity);
+	public ReturnEntity editUrlDetail(@RequestBody TSUrlExtendEntity urlExtendEntity,HttpSession session) {
+		boolean updateUrlDetailFlg = urlService.editUrlDetail(urlExtendEntity,session);
 		if (updateUrlDetailFlg) {
 			return new ReturnEntityBuild(true).message("请求信息修改成功！").build();
 		}

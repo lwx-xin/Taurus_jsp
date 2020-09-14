@@ -26,9 +26,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 @Service
 public class TSUrlServiceImpl extends ServiceImpl<TSUrlDao, TSUrlEntity> implements TSUrlService {
-
-	@Resource
-	private HttpSession session;
 	
 	@Resource
 	private TSUrlDao urlDao;
@@ -46,7 +43,7 @@ public class TSUrlServiceImpl extends ServiceImpl<TSUrlDao, TSUrlEntity> impleme
 
 	@Override
 	@Transactional
-	public boolean editUrlDetail(TSUrlExtendEntity urlExtendEntity) {
+	public boolean editUrlDetail(TSUrlExtendEntity urlExtendEntity,HttpSession session) {
 		if (urlExtendEntity==null) {
 			return false;
 		}

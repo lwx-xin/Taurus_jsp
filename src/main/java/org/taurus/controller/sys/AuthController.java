@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -107,8 +108,8 @@ public class AuthController {
 	
 	@RequestMapping(value = "/editAuthDetail", method = RequestMethod.POST)
 	@ResponseBody
-	public ReturnEntity editAuthDetail(@RequestBody TSAuthEntity authEntity) {
-		boolean editFlg = authService.editAuthDetail(authEntity);
+	public ReturnEntity editAuthDetail(@RequestBody TSAuthEntity authEntity,HttpSession session) {
+		boolean editFlg = authService.editAuthDetail(authEntity,session);
 		if (editFlg) {
 			return new ReturnEntityBuild(true).message("权限信息修改成功！").build();
 		}

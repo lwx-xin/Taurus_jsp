@@ -29,9 +29,6 @@ import org.taurus.service.sys.TSFolderService;
 public class UploadFileServiceImpl implements UploadFileService {
 
 	@Resource
-	private HttpSession session;
-
-	@Resource
 	private TaurusConfig taurusConfig;
 
 	@Resource
@@ -41,7 +38,7 @@ public class UploadFileServiceImpl implements UploadFileService {
 	private TSFolderService folderServie;
 
 	@Override
-	public TSFileEntity uploadFile(MultipartFile file, String fileFolderId) {
+	public TSFileEntity uploadFile(MultipartFile file, String fileFolderId, HttpSession session) {
 		if (file.getSize() <= 0) {
 			// 空文件
 			return null;
@@ -106,10 +103,10 @@ public class UploadFileServiceImpl implements UploadFileService {
 	}
 
 	@Override
-	public List<TSFileEntity> uploadFiles(MultipartFile[] files, String fileFolderId) throws IOException {
+	public List<TSFileEntity> uploadFiles(MultipartFile[] files, String fileFolderId,HttpSession session) throws IOException {
 		List<TSFileEntity> fileList = new ArrayList<TSFileEntity>();
 		for (MultipartFile f : files) {
-			TSFileEntity uploadFile = uploadFile(f, fileFolderId);
+			TSFileEntity uploadFile = uploadFile(f, fileFolderId, session);
 			if (uploadFile!=null) {
 				fileList.add(uploadFile);
 			}

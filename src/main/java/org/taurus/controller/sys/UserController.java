@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,8 +82,8 @@ public class UserController {
 	
 	@RequestMapping(value = "/editUserDetail", method = RequestMethod.POST)
 	@ResponseBody
-	public ReturnEntity editUserDetail(@RequestBody TSUserExtendEntity extendEntity) {
-		boolean updateUserDetailFlg = userService.editUserDetail(extendEntity);
+	public ReturnEntity editUserDetail(@RequestBody TSUserExtendEntity extendEntity,HttpSession session) {
+		boolean updateUserDetailFlg = userService.editUserDetail(extendEntity,session);
 		if (updateUserDetailFlg) {
 			return new ReturnEntityBuild(true).message("用户信息修改成功！").build();
 		}

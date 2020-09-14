@@ -29,9 +29,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 @Service
 public class TSUserServiceImpl extends ServiceImpl<TSUserDao, TSUserEntity> implements TSUserService {
-
-	@Resource
-	private HttpSession session;
 	
 	@Resource
 	private TaurusConfig config;
@@ -58,7 +55,7 @@ public class TSUserServiceImpl extends ServiceImpl<TSUserDao, TSUserEntity> impl
 
 	@Override
 	@Transactional
-	public boolean editUserDetail(TSUserExtendEntity extendEntity) {
+	public boolean editUserDetail(TSUserExtendEntity extendEntity,HttpSession session) {
 		if (extendEntity==null) {
 			return false;
 		}

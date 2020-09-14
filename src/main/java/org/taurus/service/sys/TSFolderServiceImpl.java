@@ -27,9 +27,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 public class TSFolderServiceImpl extends ServiceImpl<TSFolderDao, TSFolderEntity> implements TSFolderService {
 	
 	@Resource
-	private HttpSession session;
-	
-	@Resource
 	private TaurusConfig taurusConfig;
 	
 	@Resource
@@ -39,7 +36,7 @@ public class TSFolderServiceImpl extends ServiceImpl<TSFolderDao, TSFolderEntity
 	private TSFolderDao folderDao;
 
 	@Override
-	public List<TSFolderExtendEntity> getChildrenTree(String folderOwner) {
+	public List<TSFolderExtendEntity> getChildrenTree(String folderOwner,HttpSession session) {
 		String loginUserId = SessionUtil.getUserId(session);
 		//判断是否是管理员
 		boolean userIsHaveAdminAuth = userService.userIsHaveAuth(taurusConfig.getAdminAuthId(), loginUserId);
@@ -129,7 +126,7 @@ public class TSFolderServiceImpl extends ServiceImpl<TSFolderDao, TSFolderEntity
 	}
 
 	@Override
-	public boolean editFolder(String folderId,String folderName,String editType) {
+	public boolean editFolder(String folderId,String folderName,String editType,HttpSession session) {
 		
 		String loginUserId = SessionUtil.getUserId(session);
 		

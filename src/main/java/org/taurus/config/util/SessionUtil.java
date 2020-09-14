@@ -1,6 +1,8 @@
 package org.taurus.config.util;
 
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,7 +10,9 @@ import org.taurus.entity.sys.TSUserEntity;
 
 public class SessionUtil {
 	
-	private static final String USER_INFO= "userInfo";
+	private static Map<String, HttpSession> sessionMap = new HashMap<String, HttpSession>();
+	
+	public static final String USER_INFO= "userInfo";
 	
 	/**
 	 * 清除全部session
@@ -55,6 +59,22 @@ public class SessionUtil {
 	 */
 	public static void setUserInfo(HttpSession session, TSUserEntity userExtendEntity) {
 		session.setAttribute(USER_INFO, userExtendEntity);
+	}
+	
+	public static HttpSession getSession(String userId) {
+		return sessionMap.get(userId);
+	}
+	public static void addSession(HttpSession session) {
+		String userId = getUserId(session);
+		if (StrUtil.isNotEmpty(userId)) {
+			sessionMap.put(userId, session);
+		}
+	}
+	public static void delSession(HttpSession session) {
+		String userId = getUserId(session);
+		if (StrUtil.isNotEmpty(userId)) {
+			sessionMap.remove(userId);
+		}
 	}
 
 }

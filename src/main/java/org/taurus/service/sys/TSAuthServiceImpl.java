@@ -2,7 +2,6 @@ package org.taurus.service.sys;
 
 import java.util.Date;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
@@ -17,12 +16,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 @Service
 public class TSAuthServiceImpl extends ServiceImpl<TSAuthDao, TSAuthEntity> implements TSAuthService {
 	
-	@Resource
-	private HttpSession session;
-
 	@Override
 	@Transactional
-	public boolean editAuthDetail(TSAuthEntity authEntity) {
+	public boolean editAuthDetail(TSAuthEntity authEntity,HttpSession session) {
 		
 		if (authEntity==null) {
 			return false;

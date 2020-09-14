@@ -2,6 +2,8 @@ package org.taurus.service.sys;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.taurus.entity.sys.TSUserEntity;
 import org.taurus.entity.sys.TSUserExtendEntity;
 
@@ -16,7 +18,7 @@ public interface TSUserService extends IService<TSUserEntity> {
 	 */
 	List<TSUserExtendEntity> selectExtendInfo(String userId);
 	
-	boolean	editUserDetail(TSUserExtendEntity extendEntity);
+	boolean	editUserDetail(TSUserExtendEntity extendEntity,HttpSession session);
 	
 	/**
 	 * 用户是否拥有某个权限

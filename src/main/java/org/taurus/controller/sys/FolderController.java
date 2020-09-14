@@ -22,9 +22,6 @@ public class FolderController {
 	private HttpServletRequest request;
 
 	@Resource
-	private HttpSession session;
-
-	@Resource
 	private TSFolderService folderService;
 
 	@RequestMapping(value = "/openAddFolder", method = RequestMethod.GET)
@@ -54,8 +51,8 @@ public class FolderController {
 
 	@RequestMapping(value = "/editFolderDetail", method = RequestMethod.POST)
 	@ResponseBody
-	public ReturnEntity editFolderDetail(String folderId,String folderName,String editType) {
-		boolean editFolder = folderService.editFolder(folderId, folderName, editType);
+	public ReturnEntity editFolderDetail(String folderId,String folderName,String editType,HttpSession session) {
+		boolean editFolder = folderService.editFolder(folderId, folderName, editType,session);
 		if (editFolder) {
 			return new ReturnEntityBuild(true).build();
 		}

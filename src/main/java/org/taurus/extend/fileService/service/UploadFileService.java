@@ -3,6 +3,8 @@ package org.taurus.extend.fileService.service;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.taurus.entity.sys.TSFileEntity;
 
@@ -15,8 +17,8 @@ public interface UploadFileService {
 	 * @return
 	 * @throws IOException
 	 */
-	public TSFileEntity uploadFile(MultipartFile file, String fileFolderId) throws IOException;
+	public TSFileEntity uploadFile(MultipartFile file, String fileFolderId,HttpSession session) throws IOException;
 	
-	public List<TSFileEntity> uploadFiles(MultipartFile[] files, String fileFolderId) throws IOException;
+	public List<TSFileEntity> uploadFiles(MultipartFile[] files, String fileFolderId,HttpSession session) throws IOException;
 	
 }

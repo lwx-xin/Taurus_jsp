@@ -37,9 +37,6 @@ public class FileController {
 	private HttpServletRequest request;
 	
 	@Resource
-	private HttpSession session;
-	
-	@Resource
 	private TSFileService fileService;
 	
 	@Resource
@@ -68,10 +65,10 @@ public class FileController {
 
 	@RequestMapping(value = "/initFolderList", method = RequestMethod.POST)
 	@ResponseBody
-	public ReturnEntity initFolderList(TSFileExtendEntity fileExtendEntity){
+	public ReturnEntity initFolderList(TSFileExtendEntity fileExtendEntity,HttpSession session){
 		String loginUserId = SessionUtil.getUserId(session);
 		//菜单列表
-		List<TSFolderExtendEntity> childrenTree = folderService.getChildrenTree(loginUserId);
+		List<TSFolderExtendEntity> childrenTree = folderService.getChildrenTree(loginUserId,session);
 		return new ReturnEntityBuild(true).listData(childrenTree).build();
 	}
 	
@@ -83,10 +80,10 @@ public class FileController {
 	
 	@RequestMapping(value = "/getFilePath", method = RequestMethod.POST)
 	@ResponseBody
-	public ReturnEntity getFilePath(TSFileExtendEntity fileExtendEntity) throws IOException {
+	public ReturnEntity getFilePath(TSFileExtendEntity fileExtendEntity,HttpSession session) throws IOException {
 		String fileId = fileExtendEntity.getFileId();
 		if (StrUtil.isNotEmpty(fileId)) {
-			String filePath = fileService.getFilePath(fileId);
+			String filePath = fileService.getFilePath(fileId,session);
 			if (StrUtil.isNotEmpty(filePath)) {
 				return new ReturnEntityBuild(true).objectData(filePath).build();
 			}
@@ -115,8 +112,8 @@ public class FileController {
 	
 	@RequestMapping(value = "/fileUpload", method = RequestMethod.POST)
 	@ResponseBody
-	public ReturnEntity fileUpload(@RequestParam("file[]") MultipartFile[] file, String folderId) throws IOException {
-		List<TSFileEntity> uploadFiles = uploadFileService.uploadFiles(file, folderId);
+	public ReturnEntity fileUpload(@RequestParam("file[]") MultipartFile[] file, String folderId,HttpSession session) throws IOException {
+		List<TSFileEntity> uploadFiles = uploadFileService.uploadFiles(file, folderId,session);
 		if (ListUtil.isEmpty(uploadFiles)) {
 			return new ReturnEntityBuild(false).message("文件上传失败").build();
 		}
