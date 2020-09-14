@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.taurus.dao.sys.TSUrlDao">
+
+	<!--实体映射-->
+	<resultMap id="entity" type="org.taurus.entity.sys.TSUrlExtendEntity">
+		<id column="url_id" property="urlId"/>
+		<collection property="authList" ofType="org.taurus.entity.sys.TSAuthEntity">
+			<id column="auth_id" property="authId"/>
+		</collection>
+	</resultMap>
+	
+	<select id="getUrlByUser" resultMap="entity">
+		SELECT 
+			DISTINCT u.*
+		FROM t_s_url u
+		LEFT JOIN t_auth_url au ON au.url_id=u.url_id AND au.auth_url_del_flg='1'
+		LEFT JOIN t_s_auth a ON au.auth_id=a.auth_id AND a.auth_del_flg='1'
+		WHERE u.url_del_flg='1' 
+			AND EXISTS (
+				SELECT c.auth_id FROM t_auth_user c WHERE c.auth_id=a.auth_id AND user_id=#{userId}
+			)
+	</select>
+	
+	<select id="selectExtendInfo" resultMap="entity">
+		SELECT 
+			u.*,
+			a.*
+		FROM t_s_url u
+		LEFT JOIN t_auth_url au ON au.url_id=u.url_id AND au.auth_url_del_flg='1'
+		LEFT JOIN t_s_auth a ON au.auth_id=a.auth_id AND a.auth_del_flg='1'
+		<where>
+			<if test="urlId!=null and urlId!=''">
+				u.url_id=#{urlId}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

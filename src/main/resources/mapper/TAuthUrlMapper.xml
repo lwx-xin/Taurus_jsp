@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.taurus.dao.sys.TAuthUrlDao">
+
+	<!--实体映射-->
+	<resultMap id="entity" type="org.taurus.entity.sys.TAuthUrlExtendEntity">
+		<id column="auth_url_id" property="authUrlId"/>
+		<association  property="authEntity"  javaType="org.taurus.entity.sys.TSAuthEntity">
+			<id column="auth_id" property="authId"/>
+		</association>
+		<association  property="urlEntity"  javaType="org.taurus.entity.sys.TSUrlEntity">
+			<id column="url_id" property="urlId"/>
+		</association>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="entity">
+		SELECT 
+			au.*,
+			a.auth_id,
+			a.auth_level,
+			a.auth_name,
+			u.url_id,
+			u.url_path,
+			u.url_method,
+			u.url_remarks
+		FROM t_auth_url au
+		LEFT JOIN t_s_auth a ON au.auth_id=a.auth_id
+		LEFT JOIN t_s_url u ON au.url_id=u.url_id
+	</select>
+	
+</mapper>

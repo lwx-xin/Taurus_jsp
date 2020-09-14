@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.taurus.dao.sys.TSUserDao">
+
+	<!--实体映射-->
+	<resultMap id="entity" type="org.taurus.entity.sys.TSUserExtendEntity">
+		<id column="user_id" property="userId"/>
+		<collection property="authList" ofType="org.taurus.entity.sys.TSAuthEntity">
+			<id column="auth_id" property="authId"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectExtendInfo" resultMap="entity">
+		SELECT 
+			u.*,
+			a.*
+		FROM t_s_user u
+		LEFT JOIN t_auth_user au ON u.user_id=au.user_id AND au.auth_user_del_flg='1'
+		LEFT JOIN t_s_auth a ON au.auth_id=a.auth_id AND a.auth_del_flg='1'
+		<where>
+			<if test="userId!=null and userId!=''">
+				and u.user_id= #{userId}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

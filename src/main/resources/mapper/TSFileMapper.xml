@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.taurus.dao.sys.TSFileDao">
+
+	<!--实体映射-->
+	<resultMap id="entity" type="org.taurus.entity.sys.TSFileExtendEntity">
+		<id column="file_id" property="fileId"/>
+		<association  property="ownerUserInfo"  javaType="org.taurus.entity.sys.TSUserEntity">
+			<id column="user_id" property="userId"/>
+		</association>
+	</resultMap>
+	
+	<select id="getFolderByOwner" resultType="java.lang.String">
+		SELECT 
+			DISTINCT file_path 
+		FROM t_s_file
+		<where>
+			<if test="fileOwner!=null and fileOwner!=''">
+				and file_owner=#{fileOwner}
+			</if>
+		</where>
+	</select>
+	
+</mapper>
