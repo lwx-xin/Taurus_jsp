@@ -30,12 +30,16 @@ public class LoginController {
 	private TSUserService userService;
 
 	@RequestMapping(value = "/webLogin", method = RequestMethod.GET)
-	public String webLogin(HttpServletResponse response,HttpSession session) {
+	public String webLogin(HttpServletResponse response,HttpSession session,HttpServletRequest request) {
 		
 		TSUserEntity userInfo = SessionUtil.getUserInfo(session);
 		if (userInfo!=null) {
 			return "sys/home";
 		} else {
+			Object session_msg = session.getAttribute("sysErrMessage");
+			if (session_msg!=null) {
+				request.setAttribute("sysErrMessage", session.getAttribute("sysErrMessage"));
+			}
 			SessionUtil.clearSession(session);
 			session.setAttribute("LOGIN_TOKEN", StrUtil.getUUID());
 			return "sys/login";
@@ -43,12 +47,12 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/webLogin", method = RequestMethod.POST)
-	public String webLogin(TSUserEntity userEntity,String loginToken, HttpServletResponse response,HttpSession session) {
+	public String webLogin(TSUserEntity userEntity,String loginToken, HttpServletResponse response,HttpSession session, HttpServletRequest request) {
 		
 		Object LOGIN_TOKEN = session.getAttribute("LOGIN_TOKEN");
 		if (StrUtil.strIsNotEquals(LOGIN_TOKEN, loginToken)) {
 			request.setAttribute("sysErrMessage", "请重新登录");
-			return webLogin(response,session);
+			return webLogin(response,session,request);
 		}
 		session.removeAttribute("LOGIN_TOKEN");
 
@@ -80,7 +84,9 @@ public class LoginController {
 		
 		HttpSession s = SessionUtil.getSession(userEntity.getUserId());
 		if (s!=null) {
-			s.invalidate();
+//			s.invalidate();//销毁session
+			s.removeAttribute(SessionUtil.USER_INFO);
+			s.setAttribute("sysErrMessage", "该账号已在其他地方登陆");
 		}
 		
 		// 将用户信息保存在session中

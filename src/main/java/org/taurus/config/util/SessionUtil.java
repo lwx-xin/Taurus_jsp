@@ -61,6 +61,14 @@ public class SessionUtil {
 		session.setAttribute(USER_INFO, userExtendEntity);
 	}
 	
+	/**
+	 * 移除用户信息
+	 * @param session
+	 */
+	public static void removeUserInfo(HttpSession session) {
+		session.removeAttribute(USER_INFO);
+	}
+	
 	public static HttpSession getSession(String userId) {
 		return sessionMap.get(userId);
 	}

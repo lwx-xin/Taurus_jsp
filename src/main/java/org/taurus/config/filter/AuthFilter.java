@@ -13,6 +13,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +137,12 @@ public class AuthFilter implements Filter {
 		/* 1.判断用户是否登录 */
 		TSUserEntity userInfo = SessionUtil.getUserInfo(request.getSession());
 		if (userInfo==null) {
+			HttpSession session = request.getSession();
+			Object session_msg = session.getAttribute("sysErrMessage");
+			if (session_msg!=null) {
+				session.removeAttribute("sysErrMessage");
+				return new AuthResult(false, StrUtil.formatNull(session_msg), noAuth);
+			}
 			return new AuthResult(false, "请先登录后再访问", noAuth);
 		}
 
