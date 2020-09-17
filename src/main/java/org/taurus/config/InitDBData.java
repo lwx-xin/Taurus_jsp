@@ -10,6 +10,8 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.taurus.config.util.ClassUtil;
 import org.taurus.config.util.CodeKeyValue;
 import org.taurus.config.util.ListUtil;
 import org.taurus.config.util.StrUtil;
@@ -69,6 +71,9 @@ public class InitDBData {
 
 	@Resource
 	TMFormatService formatService;
+	
+	@Resource
+    JdbcTemplate jdbcTemplate;
 
 	@Bean
 	public void initData() {
@@ -96,6 +101,9 @@ public class InitDBData {
 
 		// 生成用户账号生成规则
 		createFormatUserNumber();
+		
+		//生成全部的请求
+		createAllUrl();
 	}
 
 	/**
@@ -354,5 +362,39 @@ public class InitDBData {
 			formatService.save(entity);
 		}
 	}
+	
+	private void createAllUrl() {
+		// 系统管理员id
+		String adminUserId = config.getAdminUserId();
+		
+		List<TSUrlEntity> allRequestUrl = ClassUtil.getAllRequestUrl("org.taurus.controller");
+		for (TSUrlEntity urlEntity : allRequestUrl) {
+			String urlPath = urlEntity.getUrlPath();
+			String urlMethod = urlEntity.getUrlMethod();
+			
+			if (!urlPath.startsWith("/")) {
+				urlPath = "/"+urlPath;
+			}
+			Date now = new Date();
+			
+			urlEntity.setUrlId(StrUtil.getUUID());
+			urlEntity.setUrlPath(urlPath);
+			urlEntity.setUrlMethod(urlMethod);
+			urlEntity.setUrlRemarks("");
+			urlEntity.setUrlDelFlg(CodeKeyValue.DEL_FLG_NO.value());
+			urlEntity.setUrlCreateTime(now);
+			urlEntity.setUrlCreateUserId(adminUserId);
+			urlEntity.setUrlModifyTime(now);
+			urlEntity.setUrlModifyUserId(adminUserId);
 
+			TSUrlEntity queryEntity = new TSUrlEntity();
+			queryEntity.setUrlPath(urlPath);
+			Wrapper<TSUrlEntity> queryWrapper = new QueryWrapper<TSUrlEntity>(queryEntity);
+			int count = urlService.count(queryWrapper);
+			if (count==0) {
+				urlService.save(urlEntity);
+			}
+		}
+	}
+	
 }
