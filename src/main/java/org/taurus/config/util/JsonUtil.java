@@ -1,5 +1,7 @@
 package org.taurus.config.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +51,14 @@ public class JsonUtil {
 		JSONArray jsonArrays = JSONArray.fromObject(list, jsonConfig);
 
 		return jsonArrays.toString();
+	}
+	
+	public static String arrayToJson(Object[] arr) {
+		if (ListUtil.isEmpty(arr)) {
+			return "";
+		}
+		List<Object> list = new ArrayList<Object>(Arrays.asList(arr));
+		return listToJson(list);
 	}
 	
 	/**
