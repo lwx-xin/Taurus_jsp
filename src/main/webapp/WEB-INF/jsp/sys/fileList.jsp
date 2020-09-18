@@ -194,7 +194,13 @@
 			data: obj,
 			dataType: "json",
 			type: "post",
-			async: false,//false,同步；true,异步
+			async: true,//false,同步；true,异步
+			beforeSend: function () {
+				loading();
+            },
+            complete: function () {
+            	removeLoading();
+            },
 			success: function(data){
 				if(data.status){
 					var fileList = data.listData;//文件列表
@@ -222,7 +228,13 @@
 			data: "",
 			dataType: "json",
 			type: "post",
-			async: false,//false,同步；true,异步
+			async: true,//false,同步；true,异步
+			beforeSend: function () {
+				loading();
+            },
+            complete: function () {
+            	removeLoading();
+            },
 			success: function(data){
 				if(data.status){
 					var folderTree = data.listData;//菜单列表

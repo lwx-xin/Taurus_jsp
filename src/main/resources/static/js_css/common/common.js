@@ -107,3 +107,29 @@ function formatStr(data){
 	}
 	return data;
 }
+
+function loading(){
+	//加载动画
+	var html = '<div class="loading-wrapper">'+
+	'<div class="loading-spinner-box">'+
+	'	<div class="loading-configure-border-1">'+
+	'		<div class="loading-configure-core"></div>'+
+	'	</div>'+
+	'	<div class="loading-configure-border-2">'+
+	'		<div class="loading-configure-core"></div>'+
+	'	</div>'+
+	'</div>'+
+	'</div>';
+	$("body").append(html);
+	
+	//打开遮罩层
+	$("body").append("<div class='mask'></div>");
+	$(".mask").fadeIn();
+}
+
+function removeLoading(){
+	//移除加载动画
+	$(".loading-wrapper").remove();
+	//移除遮罩层
+	$(".mask").fadeOut();
+}

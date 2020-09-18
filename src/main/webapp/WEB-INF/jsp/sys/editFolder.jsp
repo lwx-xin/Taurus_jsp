@@ -80,7 +80,13 @@
 			data: obj,
 			dataType: "json",
 			type: "post",
-			async: false,//false,同步；true,异步
+			async: true,//false,同步；true,异步
+			beforeSend: function () {
+				loading();
+            },
+            complete: function () {
+            	removeLoading();
+            },
 			success: function(data){
 				if(data.status){
 					$("#folderName").val(data.objectData.folderName);
@@ -106,7 +112,13 @@
 			data: param,
 			dataType: "json",
 			type: "post",
-			async: false,//false,同步；true,异步
+			async: true,//false,同步；true,异步
+			beforeSend: function () {
+				loading();
+            },
+            complete: function () {
+            	removeLoading();
+            },
 			success: function(data){
 				if(data.status){
 					swal("编辑成功", {icon: "success",})

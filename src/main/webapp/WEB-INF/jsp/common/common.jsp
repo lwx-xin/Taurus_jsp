@@ -34,6 +34,7 @@
 <link href="<%=basePath %>js_css/css/style.css?v=4.1.0" rel="stylesheet">
 <link href="<%=basePath %>js_css/layui/css/layui.css" rel="stylesheet">
 <link href="<%=basePath %>js_css/css/sudoku.css" rel="stylesheet">
+<link href="<%=basePath %>js_css/css/loading.css" rel="stylesheet">
 
 
 <script src="<%=basePath %>js_css/js/jquery.min.js?v=2.1.4"></script>
