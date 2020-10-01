@@ -26,7 +26,7 @@
                     <input type="text" name="userNumber" class="form-control" placeholder="用户名" required="">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="userPwd" class="form-control" placeholder="密码" required="">
+                    <input type="text" autocomplete="new-password" autocomplete="off" name="userPwd" class="form-control password-disc" placeholder="密码" required="">
                 </div>
                 <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
 

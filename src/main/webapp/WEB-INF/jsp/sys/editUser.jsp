@@ -45,14 +45,14 @@
                             <div class="form-group" name="pwdDiv">
                                 <label class="col-sm-3 control-label">密码：</label>
                                 <div class="col-sm-8">
-                                    <input id="userPwd" name="userPwd" class="form-control" type="password" aria-required="true">
+                                    <input id="userPwd" autocomplete="off" name="userPwd" class="form-control password-disc" type="text" aria-required="true">
                                 </div>
                             </div>
                             <div class="form-group" name="pwdDiv">
                                 <label class="col-sm-3 control-label">确认密码：</label>
                                 <div class="col-sm-8">
-                                    <input id="password1" name="password1" class="form-control" type="password" aria-required="true">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 请再次输入您的密码</span>
+                                    <input id="password1" autocomplete="off" name="password1" class="form-control password-disc" type="text" aria-required="true">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> <span id="pwdMsg">请再次输入您的密码</span></span>
                                 </div>
                             </div>
 							<div class="form-group">
@@ -126,6 +126,18 @@
         		$("span[name='userDelFlg_msg']").html("账号已启用");
         	} else {
         		$("span[name='userDelFlg_msg']").html("账号已禁用");
+        	}
+        });
+        
+        $("#userPwd,#password1").on("input", function(){
+        	var pwd = $("#userPwd").val();
+        	var pwd1 = $("#password1").val();
+        	if(isNull(pwd) || isNull(pwd1)){
+        		$("#pwdMsg").html("请再次输入您的密码");
+        	} else if(pwd!=pwd1){
+        		$("#pwdMsg").html("<span style='color:red'>两次密码不一致</span>");
+        	} else {
+        		$("#pwdMsg").html("");
         	}
         });
 	}

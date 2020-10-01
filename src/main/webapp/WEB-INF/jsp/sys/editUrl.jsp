@@ -41,8 +41,8 @@
                                 <div class="col-sm-8">
 	                                <select id="urlMethod" name="urlMethod" data-placeholder="请选择请求方式..." class="chosen-select " style="width:490px;" tabindex="2" aria-required="true" multiple>
 	                                    <option value="">请选择请求方式</option>
-	                                    <option value="get" hassubinfo="true">get</option>
-	                                    <option value="post" hassubinfo="true">post</option>
+	                                    <option value="GET" hassubinfo="true">get</option>
+	                                    <option value="POST" hassubinfo="true">post</option>
 	                                </select>
                                 </div>
                             </div>

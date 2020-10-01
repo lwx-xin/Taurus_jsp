@@ -96,6 +96,7 @@ public class TSUserServiceImpl extends ServiceImpl<TSUserDao, TSUserEntity> impl
 			folderService.save(entity);
 		} else {
 			//编辑用户
+			extendEntity.setUserPwd(null);
 			extendEntity.setUserModifyUserId(loginUserId);
 			extendEntity.setUserModifyTime(new Date());
 		}

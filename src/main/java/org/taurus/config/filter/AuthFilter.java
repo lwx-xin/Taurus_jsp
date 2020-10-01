@@ -65,6 +65,11 @@ public class AuthFilter implements Filter {
 	 */
 	private final String noAuth = "/authErr";
 	
+	/**
+	 * 未登录
+	 */
+	private final String nologin = "/nologin";
+	
 	@Resource
 	private TSUrlDao urlDao;
 
@@ -141,9 +146,9 @@ public class AuthFilter implements Filter {
 			Object session_msg = session.getAttribute("sysErrMessage");
 			if (session_msg!=null) {
 				session.removeAttribute("sysErrMessage");
-				return new AuthResult(false, StrUtil.formatNull(session_msg), noAuth);
+				return new AuthResult(false, StrUtil.formatNull(session_msg), nologin);
 			}
-			return new AuthResult(false, "请先登录后再访问", noAuth);
+			return new AuthResult(false, "请先登录后再访问", nologin);
 		}
 
 		/* 2.当前用户是否设置权限，如果有权限就把权限对应的请求保存起来 */
@@ -165,7 +170,7 @@ public class AuthFilter implements Filter {
 				if (flg==0) flg=1;
 				//请求方式
 				List<String> methodList = JsonUtil.jsonToList(urlMethod, String.class);
-				if (ListUtil.isEmpty(methodList) || !methodList.contains(method.toLowerCase())) {
+				if (ListUtil.isEmpty(methodList) || !methodList.contains(method.toUpperCase())) {
 					flg=-1;
 					break;
 				}

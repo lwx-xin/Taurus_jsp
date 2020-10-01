@@ -39,8 +39,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">权限级别：</label>
                                 <div class="col-sm-8">
-                                    <input id="authLevel" name="authLevel" class="form-control" type="text" aria-required="true">
-                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 最多100个文字</span>
+                                    <input id="authLevel" name="authLevel" class="form-control" type="number" aria-required="true" value="0">
+                                    <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>数字最大为99</span>
                                 </div>
                             </div>
 							<div class="form-group">

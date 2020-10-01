@@ -30,7 +30,7 @@
                     </div>
                     <div class="ibox-content">
 						<div class="">
-                            <a onclick="openAddAuth();" href="javascript:void(0);" class="btn btn-primary  display_none">添加用户</a>
+                            <a onclick="openAddAuth();" href="javascript:void(0);" class="btn btn-primary  display_none">添加权限</a>
                         </div>
                         <table class="table table-striped table-bordered table-hover" id="authDataTable">
                             <thead>

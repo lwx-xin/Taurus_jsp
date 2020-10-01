@@ -214,7 +214,7 @@
 					layer.msg(data.message);
 				}
 			},
-			error: function(data){
+			error: function(XMLHttpRequest, textStatus, errorThrown){
 				layer.msg("err");
 			}
 		});

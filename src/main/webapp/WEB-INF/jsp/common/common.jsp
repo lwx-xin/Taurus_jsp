@@ -35,6 +35,7 @@
 <link href="<%=basePath %>js_css/layui/css/layui.css" rel="stylesheet">
 <link href="<%=basePath %>js_css/css/sudoku.css" rel="stylesheet">
 <link href="<%=basePath %>js_css/css/loading.css" rel="stylesheet">
+<link href="<%=basePath %>js_css/common/common.css" rel="stylesheet">
 
 
 <script src="<%=basePath %>js_css/js/jquery.min.js?v=2.1.4"></script>
@@ -77,6 +78,16 @@
 
 <script>
 
+$(function(){
+	$(document).ajaxComplete(function(event,request, settings){
+		var sysErrMessage = request.getResponseHeader("sysErrMessage");
+		var redirectUrl = request.getResponseHeader("redirect-url");
+		if(isNotNull(redirectUrl)){
+			window.location.href="<%=basePath %>"+redirectUrl;
+		}
+	});
+});
+
 //获取登录用户id
 function getLoginUserId(){
 	return '${userInfo.userId}';
@@ -102,4 +113,5 @@ function getUserInfoById(userId) {
 	});
 	return userInfo;
 }
+
 </script>

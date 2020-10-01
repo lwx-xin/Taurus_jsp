@@ -35,6 +35,7 @@
                         <table class="table table-striped table-bordered table-hover" id="userDataTable">
                             <thead>
                                 <tr>
+                                    <th style="display:none;">排序用</th>
                                     <th style="display:none;"></th>
                                     <th>NO</th>
                                     <th>账号</th>
@@ -78,7 +79,15 @@
 	        "searching": true,      // 是否允许检索
 	        "ordering": true,        // 是否允许排序
 	        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
+	        "order": [[ 0, "desc" ]],
 	        "columns": [
+	            { //排序用
+	            	className: "display-none",
+	            	"data": null,"render": function (data, type, row, meta) {
+	            		var userModifyTime = formatDate(new Date(data.userModifyTime), "yyyy-MM-dd HH:mm:ss");
+	            		return "<span name='userModifyTime' style='display:none;'>"+userModifyTime+"</span>";
+					}
+	            },
 	            { 
 	            	className: "display-none",
 	            	"data": null,"render": function (data, type, row, meta) {
