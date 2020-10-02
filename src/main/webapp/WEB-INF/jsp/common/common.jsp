@@ -83,7 +83,7 @@ $(function(){
 		var sysErrMessage = request.getResponseHeader("sysErrMessage");
 		var redirectUrl = request.getResponseHeader("redirect-url");
 		if(isNotNull(redirectUrl)){
-			window.location.href="<%=basePath %>"+redirectUrl;
+			top.location.href="<%=basePath %>"+redirectUrl;
 		}
 	});
 });
