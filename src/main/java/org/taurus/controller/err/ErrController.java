@@ -64,4 +64,15 @@ public class ErrController {
 	public String nologin() {
 		return "sys/login";
 	}
+	@RequestMapping(value = "/nologin", method = RequestMethod.POST)
+	public void nologin(HttpServletRequest request, HttpServletResponse response) {
+		String sysErrMessage = StrUtil.formatNull(request.getAttribute("sysErrMessage"));
+		try {
+			sysErrMessage = URLEncoder.encode(sysErrMessage, "utf-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		response.setHeader("sysErrMessage", sysErrMessage);
+		response.setHeader("redirect-url", "/nologin");
+	}
 }
