@@ -22,8 +22,14 @@ import org.taurus.config.util.ListUtil;
 import org.taurus.config.util.SessionUtil;
 import org.taurus.config.util.StrUtil;
 import org.taurus.dao.sys.TSUrlDao;
+import org.taurus.entity.sys.TSFileEntity;
+import org.taurus.entity.sys.TSFolderEntity;
 import org.taurus.entity.sys.TSUrlExtendEntity;
 import org.taurus.entity.sys.TSUserEntity;
+import org.taurus.service.sys.TSFileService;
+import org.taurus.service.sys.TSFolderService;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 public class AuthFilter implements Filter {
 
@@ -72,6 +78,12 @@ public class AuthFilter implements Filter {
 	
 	@Resource
 	private TSUrlDao urlDao;
+
+	@Resource
+	private TSFileService fileService;
+	
+	@Resource
+	private TSFolderService folderService;
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -134,7 +146,7 @@ public class AuthFilter implements Filter {
 			// 公共资源不需要验证
 			if (url.startsWith("/js_css/") || url.startsWith("/default") || url.startsWith(noAuth)
 					|| url.startsWith("/webLogin") || url.startsWith("/webLogout") 
-					|| url.startsWith("/openStart") || url.startsWith("/file")) {
+					|| url.startsWith("/openStart")) {
 				return new AuthResult(true, "", "");
 			}
 		}
@@ -149,6 +161,11 @@ public class AuthFilter implements Filter {
 				return new AuthResult(false, StrUtil.formatNull(session_msg), nologin);
 			}
 			return new AuthResult(false, "请先登录后再访问", nologin);
+		}
+		
+		//文件请求需要判断--只有文件所属者才可以操作
+		if (url.startsWith("/file/")) {
+			return checkFileOwner(url, userInfo);
 		}
 
 		/* 2.当前用户是否设置权限，如果有权限就把权限对应的请求保存起来 */
@@ -185,6 +202,37 @@ public class AuthFilter implements Filter {
 		}
 		
 		return new AuthResult(true, "", "");
+	}
+	
+	/**
+	 * 判断文件的所属者
+	 * @param url
+	 * @param userEntity
+	 * @return
+	 */
+	private AuthResult checkFileOwner(String url, TSUserEntity userEntity) {
+		
+		//获取文件名(修改后)
+		String fileName = url.substring(url.lastIndexOf("/")+1);
+		
+		TSFileEntity entity = new TSFileEntity();
+		entity.setFileName(fileName);
+		QueryWrapper<TSFileEntity> queryWrapper = new QueryWrapper<TSFileEntity>(entity);
+		List<TSFileEntity> fileList = fileService.list(queryWrapper);
+		
+		if (ListUtil.isNotEmpty(fileList)) {
+			TSFileEntity file = fileList.get(0);
+			String fileFolderId = file.getFileFolderId();
+			if (StrUtil.isNotEmpty(fileFolderId)) {
+				TSFolderEntity folder = folderService.getById(fileFolderId);
+				String folderOwner = folder.getFolderOwner();
+				if (StrUtil.strIsEquals(folderOwner, userEntity.getUserId())) {
+					return new AuthResult(true, "", "");
+				}
+			}
+		}
+		
+		return new AuthResult(false, "您没有权限操作此文件", noAuth);
 	}
 
 }
