@@ -7,6 +7,11 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.taurus.config.util.SessionUtil;
 
+/**
+ * 监听session的创建，销毁
+ * @author 祈
+ *
+ */
 @WebListener
 public class SessionListener implements HttpSessionListener {
 
