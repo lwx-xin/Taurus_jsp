@@ -76,14 +76,27 @@ public enum CodeKeyValue {
 		this.value = value;
 		this.name = name;
 	}
+	
+	/**
+	 * 获取code对应的值
+	 * @return
+	 */
 	public String value(){
 		return value;
 	}
 	
+	/**
+	 * 获取code的分组
+	 * @return
+	 */
 	public String group() {
 		return group;
 	}
 	
+	/**
+	 * 获取code对应的中文
+	 * @return
+	 */
 	public String names() {
 		return name;
 	}
