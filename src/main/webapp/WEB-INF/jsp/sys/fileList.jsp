@@ -100,7 +100,7 @@
                     
                     </div>
                     
-					<div id="audioMenu" style="position:fixed;margin-top:200px;">
+					<%-- <div id="audioMenu" style="position:fixed;margin-top:200px;">
 						<div id="navImg" style="float: left;">
 							<img id="navImg" style="cursor:pointer;"
 								width="50px" title="正在播放"
@@ -115,13 +115,44 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 					
                 </div>
             </div>
         </div>
     </div>
-    
+
+<div id="QPlayer">
+	<div id="pContent">
+		<div id="player">
+			<span class="cover"></span>
+			<div class="ctrl">
+				<div class="musicTag marquee">
+					<strong>Title</strong>
+					 <span> - </span>
+					<span class="artist">Artist</span>
+				</div>
+				<div class="progress">
+					<div class="timer left">0:00</div>
+					<div class="contr">
+						<div class="rewind icon"></div>
+						<div class="playback icon"></div>
+						<div class="fastforward icon"></div>
+					</div>
+					<div class="right">
+						<div class="liebiao icon"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="ssBtn">
+		        <div class="adf"></div>
+	    </div>
+	</div>
+	<ol id="playlist"></ol>
+</div>
+<script src="<%=basePath %>js_css/my_audio/js/player.js"></script>
+
 </body>
 <script>
 	$(function(){
@@ -141,8 +172,9 @@
 			animationHover(this, 'pulse');
 		});
 		
-		//渲染音频控件		
+		/* //渲染音频控件		
 		plyr.setup();
+		
 		//控制音频控件伸缩
 		var audioDivShow = false;
 		audioDivWidth = $("#audioDiv").outerWidth()+5;
@@ -162,7 +194,7 @@
 			}
 		});
 		//音频控件默认不显示，点击音乐后显示
-		$("#audioMenu").hide();
+		$("#audioMenu").hide(); */
 		
 		//使左侧菜单跟随页面
         $(window).scroll(function() {
@@ -372,6 +404,7 @@
 		return nodeList;
 	}
 	
+	//文件显示模板
 	function getTemplate(fileInfo){
 		//文件id
 		var fileId=fileInfo.fileId;
@@ -408,6 +441,7 @@
 		return templateHtml;
 	}
 	
+	//打开文件
 	function openFile(ele){
 		var fileId=$(ele).attr("file-id");
 		var fileType=$(ele).attr("file-type");
@@ -426,7 +460,7 @@
 				break;
 			case "video":
 				//视频
-				openVideo(filePath, fileName);
+				openVideo(fileId, fileName);
 				break;
 			case "txt":
 				//文本
@@ -435,7 +469,7 @@
 				break;
 			case "audio":
 				//音频
-				openAudio(filePath, fileName);
+				openAudio(fileId, fileName);
 				break;
 			case "picture":
 				//图片
@@ -548,24 +582,47 @@
 	}
 	
 	//打开视频
-	function openVideo(videoPath, videoName){
-		var url = "<%=basePath %>system/fileController/openShowVideo?videoPath="+videoPath;
+	function openVideo(videoId, videoName){
+		var url = "<%=basePath %>system/fileController/openShowVideo?videoId="+videoId;
 		//window.open(url);
 		parent.addMenuTab(url,videoName,1);
 	}
 	
-	//打开音频
-	function openAudio(audioPath, audioName){
-		<%-- var url = "<%=basePath %>system/fileController/openShowAudio?audioPath="+audioPath;
+	var isRotate = true;
+	var autoplay = false;//自动播放
+	var	playlist = null;
+	function openAudio(audioId, audioName){
+		
+		if(isNull(playlist)){
+			playlist = new Array();
+		}
+		
+		var getAudioSteam = "<%=basePath %>system/fileController/getVideo?fileId="+audioId;
+		
+		var audioObj = new Object();
+		audioObj["title"]="";//歌名
+		audioObj["artist"]="";//歌手
+		audioObj["cover"]="";//封面
+		audioObj["mp3"]=getAudioSteam;//播放路径
+		playlist.push(audioObj);
+		/* var lis= $('.lib');
+		for(var i=0; i<lis.length; i+=2)
+		lis[i].style.background = 'rgba(246, 246, 246, 0.5)'; */
+	}
+	
+<%-- 	//打开音频
+	function openAudio(audioId, audioName){
+		var url = "<%=basePath %>system/fileController/openShowAudio?audioPath="+audioPath;
 		window.open(url);//重新打开一个网页
-		parent.addMenuTab(url,audioName,1);//重新打开一个tabs --%>
+		parent.addMenuTab(url,audioName,1);//重新打开一个tabs
 		
 		var filePath="<%=basePath %>file/"+audioPath;
+		var getAudioSteam = "<%=basePath %>system/fileController/getVideo?fileId="+audioId;
 		var audioHtml=''+
 		'<div class="ibox float-e-margins">'+
 		'	<div class="player" id="audioList">'+
 		'		<audio id="audioMain" autoplay="autoplay" controls>'+
-		'			<source id="audioSource" src="'+filePath+'" type="audio/mp3">'+
+		'			<source id="audioSource" src="'+getAudioSteam+'" type="audio/mp3">'+
 		'		</audio>'+
 		'	</div>'+
 		'</div>';
@@ -584,7 +641,7 @@
 		audio.addEventListener("ended",function(){
 			$("#audioMenu").hide();
 		})
-	}
+	} --%>
 	
 	//打开pdf文件
 	function openPdf(pdfPath,pdfName){

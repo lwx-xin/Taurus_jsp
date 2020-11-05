@@ -54,6 +54,7 @@
 		
 		plyr.setup();
 		
+		$("[data-player='fullscreen']").click();
 	});
 	
 	function drawElement(){
@@ -66,8 +67,11 @@
 	}
 
 	function initData(){
-		var filePath="<%=basePath %>file/${videoPath}"
-		$("#videoSource").attr("src",filePath);
+		<%-- var filePath="<%=basePath %>file/${videoPath}"
+		$("#videoSource").attr("src",filePath); --%>
+		
+		var getVideoSteam = "<%=basePath %>system/fileController/getVideo?fileId=${videoId}";
+		$("#videoSource").attr("src",getVideoSteam);
 	}	
 </script>
 </html>
