@@ -1,7 +1,6 @@
 package org.taurus.controller.sys;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.taurus.config.util.CodeKeyValue;
 import org.taurus.config.util.JsonUtil;
 import org.taurus.config.util.ListUtil;
-import org.taurus.config.util.MCodeUtil;
 import org.taurus.config.util.StrUtil;
 import org.taurus.config.util.entity.ReturnEntity;
 import org.taurus.config.util.entity.ReturnEntityBuild;
@@ -39,8 +37,6 @@ public class UserController {
 	
 	@RequestMapping(value = "/openUserList", method = RequestMethod.GET)
 	public String openUserList(HttpServletRequest request) {
-		Map<String, String> delFlgJson = MCodeUtil.getGroupMap(CodeKeyValue.DEL_FLG_NO.group());
-		request.setAttribute("delFlgJson", JsonUtil.mapToJson(delFlgJson));
 		return "sys/userList";
 	}
 

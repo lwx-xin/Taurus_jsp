@@ -101,14 +101,7 @@
 	            },
 	            { 
 	            	"data": null,"render": function (data, type, row, meta) {
-	            		var html = "";
-	            		var delFlgJson = '${delFlgJson}';
-	            		if(isNotNull(delFlgJson)){
-		            		var delFlg = JSON.parse(delFlgJson);
-		            		var code = formatStr(data.authDelFlg);
-		            		html += delFlg[code];
-	            		}
-	            		return html;
+	            		return getCodeName("del_flg",data.authDelFlg);
 					}
 	            },
 	            { 

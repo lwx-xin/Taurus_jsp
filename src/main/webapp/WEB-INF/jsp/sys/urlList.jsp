@@ -118,14 +118,7 @@
 	            },
 	            { 
 	            	"data": null,"render": function (data, type, row, meta) {
-	            		var html = "";
-	            		var delFlgJson = '${delFlgJson}';
-	            		if(isNotNull(delFlgJson)){
-		            		var delFlg = JSON.parse(delFlgJson);
-		            		var code = formatStr(data.urlDelFlg);
-		            		html += delFlg[code];
-	            		}
-	            		return html;
+	            		return getCodeName("del_flg",data.urlDelFlg);
 					}
 	            },
 	            { 
@@ -159,7 +152,7 @@
             	removeLoading();
             },
 			success: function(data){
-				if(data.status){console.log(data.listData)
+				if(data.status){
 					urlDataTable.clear();
 					urlDataTable.rows.add(data.listData);
 					urlDataTable.draw();

@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.taurus.config.util.CodeKeyValue;
-import org.taurus.config.util.JsonUtil;
 import org.taurus.config.util.ListUtil;
-import org.taurus.config.util.MCodeUtil;
 import org.taurus.config.util.StrUtil;
 import org.taurus.config.util.entity.ReturnEntity;
 import org.taurus.config.util.entity.ReturnEntityBuild;
@@ -45,9 +42,6 @@ public class AuthController {
 	
 	@RequestMapping(value = "/openAuthList", method = RequestMethod.GET)
 	public String openAuthList(HttpServletRequest request) {
-		
-		Map<String, String> delFlgJson = MCodeUtil.getGroupMap(CodeKeyValue.DEL_FLG_NO.group());
-		request.setAttribute("delFlgJson", JsonUtil.entityToJson(delFlgJson));
 		
 		return "sys/authList";
 	}

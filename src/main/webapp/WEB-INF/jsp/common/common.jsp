@@ -29,6 +29,7 @@
 <link href="<%=basePath %>js_css/css/plugins/dropzone/dropzone.css" rel="stylesheet">
 <link href="<%=basePath %>js_css/css/plugins/treeview/bootstrap-treeview.css" rel="stylesheet">
 <link href="<%=basePath %>js_css/contextMenu/css/contextMenu.css" rel="stylesheet">
+<link href="<%=basePath %>js_css/my_audio/css/player.css" rel="stylesheet">
 
 <link href="<%=basePath %>js_css/css/animate.css" rel="stylesheet">
 <link href="<%=basePath %>js_css/css/style.css?v=4.1.0" rel="stylesheet">
@@ -75,10 +76,17 @@
 <script src="<%=basePath %>js_css/js/plugins/treeview/bootstrap-treeview.js"></script>
 <script src="<%=basePath %>js_css/js/pdfobject/pdfobject.min.js"></script>
 <script src="<%=basePath %>js_css/contextMenu/js/jquery.contextMenu.min.js"></script>
+<script src="<%=basePath %>js_css/my_audio/js/jquery.marquee.min.js"></script>
 
 <script>
 
 $(function(){
+	/* if(isMobile()){
+		layer.msg("手机端");
+	} else {
+		layer.msg("pc端");
+	} */
+	
 	$(document).ajaxComplete(function(event,request, settings){
 		var sysErrMessage = request.getResponseHeader("sysErrMessage");
 		var redirectUrl = request.getResponseHeader("redirect-url");
@@ -112,6 +120,48 @@ function getUserInfoById(userId) {
 		}
 	});
 	return userInfo;
+}
+
+//初始化code select
+function initCodeSelect(){
+	var codeMast = ${applicationScope.codeMast};
+	
+	var attrName = "m-code";
+	var selectEles = $("select["+attrName+"]");
+	if(isNull(codeMast) || selectEles==null || selectEles.length==0){
+		return false;
+	}
+	selectEles.each(function(){
+		//获取code的分组
+		var codeGroup = $(this).attr(attrName);
+		var data = codeMast[codeGroup];
+		if(isNull(data)){
+			return true;//continue;
+		}
+		for(var i=0; i<data.length; i++){
+			var codeName = data[i].codeName;
+			var codeValue = data[i].codeValue;
+			$(this).append("<option value='"+codeValue+"'>"+codeName+"</option>");
+		};
+	});
+}
+
+//根据code的值获取名称
+function getCodeName(codeGroup,codeValue){
+	var codeMast = ${applicationScope.codeMast};
+	if(isNull(codeMast)){
+		return "";
+	}
+	
+	var codeName = "";
+	var codeList = codeMast[codeGroup];
+	$.each(codeList, function(index, v){
+		if(v.codeValue == codeValue){
+			codeName = v.codeName;
+			return false;//break;
+		}
+	});
+	return codeName;
 }
 
 </script>

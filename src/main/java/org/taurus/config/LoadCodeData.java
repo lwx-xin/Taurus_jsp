@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.taurus.config.util.CodeKeyValue;
+import org.taurus.config.util.JsonUtil;
 import org.taurus.config.util.ListUtil;
 import org.taurus.entity.sys.TMCodeEntity;
 import org.taurus.service.sys.TMCodeService;
@@ -34,6 +36,9 @@ public class LoadCodeData {
 	@Resource
 	TMCodeService codeService;
 	
+	@Resource
+	ServletContext context;
+	
 	/**
 	 * 加载全部的code
 	 */
@@ -43,6 +48,7 @@ public class LoadCodeData {
 		selectParam.setCodeDelFlg(CodeKeyValue.DEL_FLG_NO.value());
 		
 		QueryWrapper<TMCodeEntity> queryWrapper = new QueryWrapper<TMCodeEntity>(selectParam);
+		queryWrapper.orderByAsc("code_order");
 		List<TMCodeEntity> codeList = codeService.list(queryWrapper);
 		
 		if (ListUtil.isNotEmpty(codeList)) {
@@ -57,6 +63,7 @@ public class LoadCodeData {
 				tmCode.put(codeGroup, list);
 			}
 		}
+		context.setAttribute("codeMast", JsonUtil.mapToJson(tmCode));
 	}
 
 }

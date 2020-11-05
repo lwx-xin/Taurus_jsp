@@ -128,14 +128,7 @@
 	            },
 	            { 
 	            	"data": null,"render": function (data, type, row, meta) {
-	            		var html = "";
-	            		var delFlgJson = '${delFlgJson}';
-	            		if(isNotNull(delFlgJson)){
-		            		var userDelFlg = JSON.parse(delFlgJson);
-		            		var code = formatStr(data.userDelFlg);
-		            		html += userDelFlg[code];
-	            		}
-	            		return html;
+	            		return getCodeName("del_flg",data.userDelFlg);
 					}
 	            },
 	            { 
